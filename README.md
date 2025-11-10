@@ -1,21 +1,56 @@
-# Tarea-Fil-sofos-comelones
-# Tarea: Filósofos Comelones 🍝
+# Filósofos Comelones - Solución con Variables de Condición
 
 ## Descripción
-Implementación del problema clásico de los filósofos comensales utilizando hilos en C. Este programa simula 5 filósofos que alternan entre pensar y comer, compartiendo tenedores entre ellos.
+Implementación del problema de sincronización "Los Filósofos Comelones" utilizando **variables de condición** y un **árbitro centralizado**. Esta solución es más elegante y eficiente que las basadas únicamente en mutexes.
 
-## 🎯 Objetivo
-Demostrar la solución al problema de sincronización y exclusión mutua usando mutex y variables de condición para evitar interbloqueos (deadlocks).
+## Características de la Implementación
 
-## ⚙️ Características
-- 5 filósofos representados como hilos
-- Estados: 🧠 Pensando, 🍽️ Hambriento, 🍝 Comiendo
-- Uso de mutex para secciones críticas
-- Variables de condición para sincronización
-- Prevención de interbloqueos
+### 🎯 Solución Implementada: **Arbitraje Central con Variables de Condición**
+- Un único mutex global protege el estado de todos los filósofos
+- Variables de condición individuales para cada filósofo
+- Función `test()` que decide cuándo un filósofo puede comer
 
-## 🏃‍♂️ Compilación y Ejecución
+### Estados del Filósofo
+- **THINKING (0)**: Pensando 🧠
+- **HUNGRY (1)**: Tiene hambre 🍽️  
+- **EATING (2)**: Comiendo 🍝
 
-### Compilar:
+## Mecanismos de Sincronización
+
+### 1. Prevención de Race Conditions
+- **Mutex global**: Garantiza acceso exclusivo al array de estados
+- **Operaciones atómicas**: Cambios de estado protegidos por el mutex
+
+### 2. Prevención de Deadlock
+- **Test centralizado**: La función `test()` verifica ambos vecinos
+- **Exclusión mutua garantizada**: Solo un filósofo come por vez en cada "tripleta"
+- **Notificación dirigida**: `pthread_cond_signal()` solo al filósofo afectado
+
+### 3. Prevención de Starvation
+- **Notificaciones en cadena**: Al liberar tenedores, se notifica a ambos vecinos
+- **Justicia en la espera**: Variables de condición garantizan orden FIFO
+- **Oportunidad equitativa**: Todos los filósofos son notificados cuando corresponde
+
+## Compilación y Ejecución
+
 ```bash
-gcc -o filosofos Filósofos.c -lpthread
+# Compilar
+make
+
+# Ejecutar
+./filosofos_comelones
+
+# Limpiar
+make clean
+
+
+
+
+
+
+
+
+
+
+
+
