@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <unistd.h>
+#include <stdio.h>        // Libreria estandar para funciones de entrada y salida
+#include <stdlib.h>       // Libreia usada para funciones como rand()
+#include <pthread.h>      // Libreria para manejar hilos
+#include <unistd.h>       // Libreria para usar sleep ()
 
-#define N 5  
-#define THINKING 0
+#define N 5               // Numero de filosos
+#define THINKING 0        
 #define HUNGRY 1
 #define EATING 2
 
