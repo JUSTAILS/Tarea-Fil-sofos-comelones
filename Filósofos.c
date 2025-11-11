@@ -69,7 +69,7 @@ void take_forks(int i) {
     pthread_mutex_lock(&mutex);       // Entrar a zona critica
 
     state[i] = HUNGRY;                // Cambiar estado
-    printf("Filósofo %d tiene hambre 🍽️\n", i + 1);
+    printf("Filósofo %d tiene hambre \n", i + 1);
     test(i);                          // Verificar si puede comer
 
     // Si no puede comer, espera
@@ -83,7 +83,7 @@ void put_forks(int i) {
     pthread_mutex_lock(&mutex);
 
     state[i] = THINKING;         // Suelta los tenedores
-    printf("Filósofo %d dejó los tenedores 🥢 y está pensando 🧠\n", i + 1);
+    printf("Filósofo %d dejó los tenedores  y está pensando \n", i + 1);
 
     // Intentar activar a los vecinos si estaban hambrientos
     test(LEFT(i));
@@ -102,11 +102,11 @@ void test(int i) {
 }
 
 void think(int i) {
-    printf("Filósofo %d está pensando 🧠\n", i + 1);
+    printf("Filósofo %d está pensando \n", i + 1);
     sleep(rand() % 3 + 1);         // Tiempo de pensamiento aleatorio
 }
 
 void eat(int i) {
-    printf("Filósofo %d está comiendo 🍝\n", i + 1);
+    printf("Filósofo %d está comiendo \n", i + 1);
     sleep(rand() % 2 + 1);         // Tiempo comiendo aleatorio
 }
