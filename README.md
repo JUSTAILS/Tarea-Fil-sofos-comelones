@@ -5,15 +5,15 @@ Implementación del problema de sincronización "Los Filósofos Comelones" utili
 
 ## Características de la Implementación
 
-### 🎯 Solución Implementada: **Arbitraje Central con Variables de Condición**
+### Solución Implementada: **Arbitraje Central con Variables de Condición**
 - Un único mutex global protege el estado de todos los filósofos.
 - Variables de condición individuales para cada filósofo.
 - Función `test()` que decide cuándo un filósofo puede comer.
 
 ### Estados del Filósofo
-- **THINKING (0)**: Pensando 🧠.
-- **HUNGRY (1)**: Tiene hambre 🍽️.  
-- **EATING (2)**: Comiendo 🍝.
+- **THINKING (0)**: Pensando.
+- **HUNGRY (1)**: Tiene hambre.  
+- **EATING (2)**: Comiendo.
 
 ## Mecanismos de Sincronización
 
@@ -35,13 +35,12 @@ Implementación del problema de sincronización "Los Filósofos Comelones" utili
 
 ```bash
 # Compilar
-make
+gcc pthread Filósofos.c -o Filósofos
 
 # Ejecutar
-./filosofos_comelones
+./Filósofos.c
 
-# Limpiar
-make clean
+```
 
 
 
