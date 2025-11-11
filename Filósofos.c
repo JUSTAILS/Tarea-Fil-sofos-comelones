@@ -56,35 +56,36 @@ int main() {
 
 //Funcion que ejecuta cada filosofo
 void *philosopher(void *num) {
-    int i = *(int *)num;
-    while (1) {
-        think(i);
-        take_forks(i);
-        eat(i);
-        put_forks(i);
+    int i = *(int *)num;         // ID del filosofo
+    while (1) {                  // ciclo infinito
+        think(i);                // Pensar
+        take_forks(i);           // Intentar tomar tenedores
+        eat(i);                  // Comer
+        put_forks(i);            // Dejar tenedores
     }
 }
 
 void take_forks(int i) {
-    pthread_mutex_lock(&mutex);
+    pthread_mutex_lock(&mutex);       // Entrar a zona critica
 
-    state[i] = HUNGRY;
+    state[i] = HUNGRY;                // Cambiar estado
     printf("Filósofo %d tiene hambre 🍽️\n", i + 1);
-    test(i);
+    test(i);                          // Verificar si puede comer
 
-    
+    // Si no puede comer, espera
     while (state[i] != EATING)
         pthread_cond_wait(&condition[i], &mutex);
 
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(&mutex);     // Salir de zona critica
 }
 
 void put_forks(int i) {
     pthread_mutex_lock(&mutex);
 
-    state[i] = THINKING;
+    state[i] = THINKING;         // Suelta los tenedores
     printf("Filósofo %d dejó los tenedores 🥢 y está pensando 🧠\n", i + 1);
-  
+
+    // Intentar activar a los vecinos si estaban hambrientos
     test(LEFT(i));
     test(RIGHT(i));
 
@@ -92,19 +93,20 @@ void put_forks(int i) {
 }
 
 void test(int i) {
-    
+
+    // Si el filosofo tiene hambre y sus vecinos no estan comiendo, puede comer
     if (state[i] == HUNGRY && state[LEFT(i)] != EATING && state[RIGHT(i)] != EATING) {
-        state[i] = EATING;
-        pthread_cond_signal(&condition[i]);
+        state[i] = EATING;                           // Cambiar estado
+        pthread_cond_signal(&condition[i]);          // Despertarlo
     }
 }
 
 void think(int i) {
     printf("Filósofo %d está pensando 🧠\n", i + 1);
-    sleep(rand() % 3 + 1);
+    sleep(rand() % 3 + 1);         // Tiempo de pensamiento aleatorio
 }
 
 void eat(int i) {
     printf("Filósofo %d está comiendo 🍝\n", i + 1);
-    sleep(rand() % 2 + 1);
+    sleep(rand() % 2 + 1);         // Tiempo comiendo aleatorio
 }
